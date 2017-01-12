@@ -1,0 +1,8 @@
+@(cats: Seq[Cat])
+
+@main("hello") {
+  @for(cat <- cats) {
+    @cat.name <br>
+  }
+
+}

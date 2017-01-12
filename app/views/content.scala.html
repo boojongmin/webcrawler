@@ -1,0 +1,8 @@
+@(contents: Seq[Content])
+
+@main("hello") {
+  @for(c <- contents) {
+    @c.id <br>
+  }
+
+}
