@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.Inject
 
-import daos.{CatDAO, ContentDAO}
+import daos.ContentDAO
 import models.Content
 import play.api._
 import play.api.db.slick.DatabaseConfigProvider
@@ -12,20 +12,11 @@ import play.api.libs.json.Json
 
 
 //class Application extends Controller {
-class Application @Inject()(catDao: CatDAO, contentDao: ContentDAO) extends Controller {
+class IndexController @Inject()(contentDao: ContentDAO) extends Controller {
 
   def index = Action.async { request =>
-    println(catDao)
-    catDao.all().map {case (cats) => Ok(views.html.index(cats)) }
 
-  }
-
-
-  def test = Action.async { request =>
-    contentDao.all().map { case(contents) => println(contents.size) }
-
-    contentDao.all().map { case(contents) => Ok(views.html.content(contents))}
-
+    contentDao.all().map { case(contents) => Ok(Json.toJson(contents))}
   }
 
   def rt = Action { request =>

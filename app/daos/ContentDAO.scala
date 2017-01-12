@@ -20,7 +20,7 @@ class ContentDAO @Inject()(val dbConfigProvider: DatabaseConfigProvider) extends
     def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
     def title = column[String]("TITLE")
 
-    override def * : ProvenShape[Content] = (id, title) <> (Content.tupled, Content.unapply _)
+    override def * : ProvenShape[Content] = (id, title) <> ((Content.apply _).tupled, Content.unapply _)
   }
 
 }
