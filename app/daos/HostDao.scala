@@ -9,12 +9,20 @@ import slick.lifted.ProvenShape
 
 import scala.concurrent.Future
 
-class HostDAO @Inject()(val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class HostDao @Inject()(val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+
+
   import driver.api._
 
   val Hosts = TableQuery[HostTable]
 
-  def all(): Future[Seq[Host]] = db.run(Hosts.result)
+  def all(): Future[Seq[Host]] = db.run(Hosts result)
+
+  def get(id: Long): Future[Host] = db.run( Hosts.filter{ _.id === id }.result.head  )
+
+  def insert(host: Host): Future[Int] = db.run( Hosts.insertOrUpdate(host) )
+
+  def delete(id: Long): Future[Int] = db.run( Hosts.filter{_.id === id}.delete )
 
   class HostTable(tag: Tag) extends Table[Host](tag, "HOST") {
 

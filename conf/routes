@@ -3,9 +3,12 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.IndexController.index
-GET     /rt                         controllers.IndexController.rt
-GET     /hosts                      controllers.HostController.index
+GET     /                        controllers.IndexController.index
+GET     /host/all                controllers.HostController.list()
+GET     /host/:id                controllers.HostController.show(id: Long)
+POST    /host                    controllers.HostController.host
+PUT     /host                    controllers.HostController.host
+DELETE  /host                    controllers.HostController.host
 
 
 # Map static resources from the /public folder to the /assets URL path
