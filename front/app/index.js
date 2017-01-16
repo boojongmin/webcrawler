@@ -8,7 +8,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './components/App';
 import Hello from './components/Hello';
 import BodyWrap from './components/BodyWrap';
-import HostList from './components/body/HostList';
+import HostListContainer from './containers/HostListContainer';
 
 injectTapEventPlugin();
 
@@ -22,7 +22,7 @@ ReactDOM.render(
         <IndexRoute component={Hello} />
         <Route path="/hello" components={Hello} />
         <Route path="/hello2" components={BodyWrap} />
-        <Route path="/hello3" components={HostList} />
+        <Route path="/hello3" components={HostListContainer} />
       </Route>
     </Router>
   </Provider>,

@@ -8,6 +8,8 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq( /*jdbc,*/ cache, ws, specs2 % Test )
 
+libraryDependencies += filters
+
 libraryDependencies += "mysql" % "mysql-connector-java" % "6.0.5"
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.193"
