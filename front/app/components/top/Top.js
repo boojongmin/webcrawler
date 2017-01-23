@@ -43,10 +43,9 @@ const menus = [
 ];
 
 const TabsMenu = () => {
-  let route = window.location.hash;
   let index = 0;
   for(let i = 0; i < menus.length; i++) {
-    if(menus[i].link === route) {
+    if(location.href.indexOf(menus[i].link) > 0) {
       index = i;
     }
   }

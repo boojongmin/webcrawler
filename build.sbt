@@ -1,4 +1,4 @@
-name := "contentcrawler"
+name := "contentcrawler-web"
 
 version := "1.0"
 

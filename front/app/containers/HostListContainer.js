@@ -2,9 +2,8 @@ import React from 'react';
 import HostList from '../components/body/HostList';
 import {hostsInit} from '../actions';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-import AddModal from '../components/body/host/Add';
+import HostModal from '../components/body/host/HostModal';
 
 const style = {
   divWrap: {
@@ -34,7 +33,7 @@ export class  HostListContainer extends React.Component {
     return (
       <div>
         <Paper style={style.paper} zDepth={1} >
-          <AddModal />
+          <HostModal />
         </Paper>
         <Paper style={style.paper} zDepth={1} >
           <HostList list={this.props.list} />

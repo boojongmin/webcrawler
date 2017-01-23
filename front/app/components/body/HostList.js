@@ -1,16 +1,28 @@
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-// import 'whatwg-fetch';
+import HostForm from './host/HostForm';
 
 class  HostList extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      open: false,
+      host: {}
+    };
+    this.onRowClickHandler = this.onRowClickHandler.bind(this);
   }
+
+  onRowClickHandler(event) {
+    let row = event[0];
+    let host = this.props.list[row];
+    this.setState({ open: true, host: host })
+  }
+
   render() {
     return (
       <div>
-        <Table>
+        <Table onRowSelection={this.onRowClickHandler} >
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
               <TableHeaderColumn style={{width: 50}}>순서</TableHeaderColumn>
@@ -22,7 +34,7 @@ class  HostList extends React.Component {
           <TableBody displayRowCheckbox={false}>
             {this.props.list.map((host, i) => {
               return (
-                <TableRow key={i}>
+                <TableRow key={host.id} >
                   <TableRowColumn style={{width: 50}}>{ i + 1}</TableRowColumn>
                   <TableRowColumn>{ host.name}</TableRowColumn>
                   <TableRowColumn>{ host.url}</TableRowColumn>
@@ -32,6 +44,7 @@ class  HostList extends React.Component {
             })}
           </TableBody>
         </Table>
+        <HostForm open={this.state.open} update={true} host={this.state.host}/>
       </div>
     )
   }
@@ -58,5 +71,7 @@ class  HostList extends React.Component {
 // };
 //
 // HostList = connect(mapStateToProps, mapDispatchToProps)(HostList);
+
+
 
 export default HostList;

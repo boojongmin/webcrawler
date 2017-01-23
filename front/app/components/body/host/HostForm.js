@@ -1,13 +1,11 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import Toggle from 'material-ui/Toggle';
 import Snackbar from 'material-ui/Snackbar';
 import 'whatwg-fetch';
-import HostText from './HostText';
 
 
 
@@ -28,7 +26,7 @@ const styles = {
 };
 
 
-export default class AddModal extends React.Component {
+export default class HostForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +35,7 @@ export default class AddModal extends React.Component {
       snackbarMessage: '',
       id:0,
       name: '',
-      url: 'http://',
+      url: '',
       status: true
     };
     this.handleOpen = this.handleOpen.bind(this);
@@ -46,7 +44,6 @@ export default class AddModal extends React.Component {
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.initState = this.initState.bind(this);
   }
 
   handleOpen(){
@@ -65,9 +62,8 @@ export default class AddModal extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleToggle(event) {
-    this.setState({ [event.target.name]: !event.target.value })
-    console.log(this.state);
+  handleToggle() {
+    this.setState({ status: !this.state.status })
   }
 
   handleSubmit() {
@@ -78,13 +74,27 @@ export default class AddModal extends React.Component {
     }).then((response) => response.json())
       .then( (json) => {
         if(json == true) {
-          this.setState({snackbarMessage: 'URL이 추가되었습니다.', snackbarOpen: true});
+          this.setState({snackbarMessage:  `URL(${this.state.url})이 추가되었습니다.`, snackbarOpen: true});
         } else {
-          this.setState({snackbarMessage: 'URL이 추가에 실패했습니다', snackbarOpen: true});
+          this.setState({snackbarMessage: `URL(${this.state.url})이 추가에 실패했습니다`, snackbarOpen: true});
         }
         this.handleClose();
       })
   }
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      open: nextProps.open
+    });
+    if(nextProps.update) {
+      this.setState({
+        id: nextProps.host.id,
+        name: nextProps.host.name,
+        url: nextProps.host.url,
+        status: nextProps.host.status
+      })
+    }
+  }
+
 
   render() {
     const actions = [
@@ -100,16 +110,10 @@ export default class AddModal extends React.Component {
       />,
     ];
 
+    let title =  this.props.update ? '수정' : '등록';
     return (
       <div>
-        <RaisedButton label="등록" primary={true} style={{margin: 12}} onTouchTap={this.handleOpen} />
-        <Dialog
-          title="Dialog With Actions"
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          autoScrollBodyContent={true}
-        >
+        <Dialog title={'점검 ' + title} actions={actions} modal={false} open={this.state.open} autoScrollBodyContent={true} >
           <TextField name="name" fullWidth={true} hintText="이름" value={this.state.name} onChange={this.handleChange} /><br />
           <TextField name="url" fullWidth={true} hintText="시작 URL" value={this.state.url} onChange={this.handleChange}/><br />
           <Toggle name="status" label="상태" toggled={this.state.status} style={styles.toggle} onToggle={this.handleToggle} />
